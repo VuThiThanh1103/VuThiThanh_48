@@ -1,0 +1,36 @@
+﻿@model IEnumerable<VuThiThanh_48.Models.NhanVien>
+
+@{
+    ViewBag.Title = "LayDuLieu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LayDuLieu</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+            <label>Mã Nhân Viên</label></th>
+            <th>
+                <label>Tên Nhân Viên</label>
+            </th>
+            <th>
+                <label>
+                    Mã Tỉnh Thành
+                </label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.NhanViens)
+        {
+            <tr>
+                <td>@item.MaNhanVien</td>
+                <td>@item.TenNhanVien</td>
+                <td>@item.TinhThanh.MaTinhThanh</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

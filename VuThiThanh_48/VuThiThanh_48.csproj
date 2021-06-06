@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -121,9 +129,33 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NhanViensController.cs" />
+    <Compile Include="Controllers\TaiKhoanController.cs" />
+    <Compile Include="Controllers\TinhThanhsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106060823068_Create_Table_TinhThanh.cs" />
+    <Compile Include="Migrations\202106060823068_Create_Table_TinhThanh.Designer.cs">
+      <DependentUpon>202106060823068_Create_Table_TinhThanh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106060824011_Create_Table_NhanVien.cs" />
+    <Compile Include="Migrations\202106060824011_Create_Table_NhanVien.Designer.cs">
+      <DependentUpon>202106060824011_Create_Table_NhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106060836128_Create_Table_TaiKhoan.cs" />
+    <Compile Include="Migrations\202106060836128_Create_Table_TaiKhoan.Designer.cs">
+      <DependentUpon>202106060836128_Create_Table_TaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106060838257_Delete_Table_TaiKhoan.cs" />
+    <Compile Include="Migrations\202106060838257_Delete_Table_TaiKhoan.Designer.cs">
+      <DependentUpon>202106060838257_Delete_Table_TaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\LTQLDbContext.cs" />
+    <Compile Include="Models\NhanVien.cs" />
+    <Compile Include="Models\TaiKhoan.cs" />
+    <Compile Include="Models\TinhThanh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +169,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -162,10 +196,21 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\TinhThanhs\Create.cshtml" />
+    <Content Include="Views\TinhThanhs\Delete.cshtml" />
+    <Content Include="Views\TinhThanhs\Details.cshtml" />
+    <Content Include="Views\TinhThanhs\Edit.cshtml" />
+    <Content Include="Views\TinhThanhs\Index.cshtml" />
+    <Content Include="Views\NhanViens\Create.cshtml" />
+    <Content Include="Views\NhanViens\Delete.cshtml" />
+    <Content Include="Views\NhanViens\Details.cshtml" />
+    <Content Include="Views\NhanViens\Edit.cshtml" />
+    <Content Include="Views\NhanViens\Index.cshtml" />
+    <Content Include="Views\NhanViens\LayDuLieu.cshtml" />
+    <Content Include="Views\TaiKhoan\TaiKhoan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -177,8 +222,20 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202106060823068_Create_Table_TinhThanh.resx">
+      <DependentUpon>202106060823068_Create_Table_TinhThanh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106060824011_Create_Table_NhanVien.resx">
+      <DependentUpon>202106060824011_Create_Table_NhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106060836128_Create_Table_TaiKhoan.resx">
+      <DependentUpon>202106060836128_Create_Table_TaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106060838257_Delete_Table_TaiKhoan.resx">
+      <DependentUpon>202106060838257_Delete_Table_TaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
